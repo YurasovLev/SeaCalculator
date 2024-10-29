@@ -7,15 +7,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SeaCalculator.Models;
 public partial class ReceiverMode : ObservableObject {
-    public List<WorkMode> WorkModesList { get; }
+    public static List<WorkMode> WorkModesList { get; }
     public enum WorkMode {
         Continuous,
         Periodic,
         Episodic
     }
     private readonly Receiver receiver;
-    [ObservableProperty]
-    private string _name = "";
+    public readonly Guid ID;
     [ObservableProperty]
     private WorkMode _mode;
     [ObservableProperty]
@@ -28,9 +27,16 @@ public partial class ReceiverMode : ObservableObject {
     public double ActivePower {get => _activePower; private set => SetProperty(ref _activePower, value); }
     private double _reactivePower;
     public double ReactivePower {get => _reactivePower; private set => SetProperty(ref _reactivePower, value); }
-    public ReceiverMode(Receiver _receiver) {
-        receiver = _receiver;
+    static ReceiverMode() {
         WorkModesList = typeof(WorkMode).GetEnumValues().Cast<WorkMode>().ToList();
+    }
+    public ReceiverMode(Receiver _receiver, ReceiverModeMemento memento) {
+        receiver = _receiver;
+        ID = memento.ID;
+        Mode = memento.Mode;
+        LoadFactor = memento.LoadFactor;
+        Cos = memento.Cos;
+
         PropertyChanged += PropertyCalcHandler;
         receiver.PropertyChanged += PropertyCalcHandler;
     }
@@ -58,5 +64,23 @@ public partial class ReceiverMode : ObservableObject {
                 }
                 break;
         }
+    }
+}
+public class ReceiverModeMemento {
+    public string Name { get; set; }
+    public readonly Guid ID;
+    public readonly ReceiverMode.WorkMode Mode;
+    public readonly double LoadFactor;
+    public readonly double Cos;
+    public ReceiverModeMemento(in Guid id) {
+        ID = id;
+        Name = "";
+    }
+    public ReceiverModeMemento(in Guid id, in string name, in ReceiverMode.WorkMode mode, in double loadFactor, in double cos) {
+        ID = id;
+        Name = name;
+        Mode = mode;
+        LoadFactor = loadFactor;
+        Cos = cos;
     }
 }

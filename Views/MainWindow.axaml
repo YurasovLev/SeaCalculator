@@ -11,34 +11,47 @@
         Title="SeaCalculator">
     <Design.DataContext><vm:MainWindowViewModel/></Design.DataContext>
 
-    <ListBox ItemsSource="{Binding Receivers}">
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Text="{Binding Name}" Margin="0,0,10,0"/>
-                    <TextBox Text="{Binding Count}" Margin="0,0,10,0"/>
-                    <TextBox Text="{Binding RatedSteadyPower}" Margin="0,0,10,0"/>
-                    <TextBox Text="{Binding Cos}" Margin="0,0,10,0"/>
-                    <TextBox Text="{Binding Efficiency}" Margin="0,0,10,0"/>
-                    <TextBlock Text="{Binding RatedPowerConsumption}" Margin="0,0,10,0"/>
-                    <ListBox ItemsSource="{Binding ReceiverModes}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox Text="{Binding Name}" Margin="0,0,10,0" />
-                                    <!-- <TextBox Text="{Binding Mode}" Margin="0,0,10,0" /> -->
-                                    <ComboBox ItemsSource="{Binding WorkModesList}" SelectedItem="{Binding Mode}" Margin="0,0,10,0"/>
-                                    <TextBox Text="{Binding LoadFactor}" Margin="0,0,10,0" />
-                                    <TextBox Text="{Binding Cos}" Margin="0,0,10,0" />  
-                                    <TextBox Text="{Binding WorkingReceiversCount}" Margin="0,0,10,0" />
-                                    <TextBlock Text="{Binding ActivePower}" Margin="0,0,10,0" />
-                                    <TextBlock Text="{Binding ReactivePower}" Margin="0,0,10,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+    
+    <StackPanel Orientation="Vertical">
+
+        <ListBox ItemsSource="{Binding receiverManager.ReceiverModes}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBox Text="{Binding Name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+                
+        <ListBox ItemsSource="{Binding receiverManager.Receivers}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding Name}" Margin="0,0,10,0"/>
+                        <TextBox Text="{Binding Count}" Margin="0,0,10,0"/>
+                        <TextBox Text="{Binding RatedSteadyPower}" Margin="0,0,10,0"/>
+                        <TextBox Text="{Binding Cos}" Margin="0,0,10,0"/>
+                        <TextBox Text="{Binding Efficiency}" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding RatedPowerConsumption}" Margin="0,0,10,0"/>
+                        <ListBox ItemsSource="{Binding ReceiverModes}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <!-- <TextBox Text="{Binding Mode}" Margin="0,0,10,0" /> -->
+                                        <ComboBox ItemsSource="{Binding WorkModesList}" SelectedItem="{Binding Mode}" Margin="0,0,10,0"/>
+                                        <TextBox Text="{Binding LoadFactor}" Margin="0,0,10,0" />
+                                        <TextBox Text="{Binding Cos}" Margin="0,0,10,0" />  
+                                        <TextBox Text="{Binding WorkingReceiversCount}" Margin="0,0,10,0" />
+                                        <TextBlock Text="{Binding ActivePower}" Margin="0,0,10,0" />
+                                        <TextBlock Text="{Binding ReactivePower}" Margin="0,0,10,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
 </Window>
