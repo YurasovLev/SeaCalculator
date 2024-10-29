@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Avalonia.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Avalonia.Models;
+namespace SeaCalculator.Models;
 public partial class ReceiverMode : ObservableObject {
-    public enum Modes {
+    public List<WorkMode> WorkModesList { get; }
+    public enum WorkMode {
         Continuous,
         Periodic,
         Episodic
@@ -12,7 +16,7 @@ public partial class ReceiverMode : ObservableObject {
     [ObservableProperty]
     private string _name = "";
     [ObservableProperty]
-    private Modes _mode;
+    private WorkMode _mode;
     [ObservableProperty]
     private double _loadFactor;
     [ObservableProperty]
@@ -23,5 +27,6 @@ public partial class ReceiverMode : ObservableObject {
     public double ReactivePower {get => ActivePower * Math.Tan(Math.Acos(Cos)); }
     public ReceiverMode(Receiver _receiver) {
         receiver = _receiver;
+        WorkModesList = typeof(WorkMode).GetEnumValues().Cast<WorkMode>().ToList();
     }
 }

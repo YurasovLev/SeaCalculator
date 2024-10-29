@@ -1,9 +1,8 @@
 using System;
 using System.ComponentModel;
-using Avalonia.Diagnostics.Screenshots;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Avalonia.Models;
+namespace SeaCalculator.Models;
 
 public partial class Receiver : ObservableObject {
     [ObservableProperty]
@@ -16,8 +15,8 @@ public partial class Receiver : ObservableObject {
     private double _cos;
     [ObservableProperty]
     private double _efficiency;
-    [ObservableProperty]
-    public double _ratedPowerConsumption;
+    private double _ratedPowerConsumption;
+    public double RatedPowerConsumption { get => _ratedPowerConsumption; private set => SetProperty(ref _ratedPowerConsumption, value); }
     public ObservableCollectionOfObservableObjects<ReceiverMode> ReceiverModes { get; }
     public Receiver() {
         ReceiverModes = new();

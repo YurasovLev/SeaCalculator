@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:SeaCalculator.ViewModels"
+        xmlns:m="using:SeaCalculator.Models"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -9,21 +10,27 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="SeaCalculator">
     <Design.DataContext><vm:MainWindowViewModel/></Design.DataContext>
+
     <ListBox ItemsSource="{Binding Receivers}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Name}" Margin="0,0,10,0"/>
-                    <TextBlock Text="{Binding Count}" Margin="0,0,10,0"/>
-                    <TextBlock Text="{Binding RatedSteadyPower}" Margin="0,0,10,0"/>
-                    <TextBlock Text="{Binding Cos}" Margin="0,0,10,0"/>
-                    <TextBlock Text="{Binding Efficiency}" Margin="0,0,10,0"/>
+                    <TextBox Text="{Binding Name}" Margin="0,0,10,0"/>
+                    <TextBox Text="{Binding Count}" Margin="0,0,10,0"/>
+                    <TextBox Text="{Binding RatedSteadyPower}" Margin="0,0,10,0"/>
+                    <TextBox Text="{Binding Cos}" Margin="0,0,10,0"/>
+                    <TextBox Text="{Binding Efficiency}" Margin="0,0,10,0"/>
                     <TextBlock Text="{Binding RatedPowerConsumption}" Margin="0,0,10,0"/>
                     <ListBox ItemsSource="{Binding ReceiverModes}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBox Text="{Binding Name}" Margin="0,0,10,0" />
+                                    <!-- <TextBox Text="{Binding Mode}" Margin="0,0,10,0" /> -->
+                                    <ComboBox ItemsSource="{Binding WorkModesList}" SelectedItem="{Binding Mode}" Margin="0,0,10,0"/>
+                                    <TextBox Text="{Binding LoadFactor}" Margin="0,0,10,0" />
+                                    <TextBox Text="{Binding Cos}" Margin="0,0,10,0" />  
+                                    <TextBox Text="{Binding WorkingReceiversCount}" Margin="0,0,10,0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
