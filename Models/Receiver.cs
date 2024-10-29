@@ -20,12 +20,12 @@ public partial class Receiver : ObservableObject {
     public ObservableCollectionOfObservableObjects<ReceiverMode> ReceiverModes { get; }
     public Receiver() {
         ReceiverModes = new();
-        PropertyChanged += RatedPowerConsumptionHandler;
+        PropertyChanged += PropertyCalcHandler;
     }
     ~Receiver() {
-        PropertyChanged -= RatedPowerConsumptionHandler;
+        PropertyChanged -= PropertyCalcHandler;
     }
-    private void RatedPowerConsumptionHandler(object? s, PropertyChangedEventArgs e) {
+    private void PropertyCalcHandler(object? s, PropertyChangedEventArgs e) {
         switch(e.PropertyName) {
             case "Efficiency":
             case "RatedSteadyPower":

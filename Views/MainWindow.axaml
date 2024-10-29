@@ -31,6 +31,8 @@
                                     <TextBox Text="{Binding LoadFactor}" Margin="0,0,10,0" />
                                     <TextBox Text="{Binding Cos}" Margin="0,0,10,0" />  
                                     <TextBox Text="{Binding WorkingReceiversCount}" Margin="0,0,10,0" />
+                                    <TextBlock Text="{Binding ActivePower}" Margin="0,0,10,0" />
+                                    <TextBlock Text="{Binding ReactivePower}" Margin="0,0,10,0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
