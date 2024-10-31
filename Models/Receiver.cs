@@ -19,9 +19,9 @@ public partial class Receiver : ObservableObject {
     private double _efficiency;
     private double _ratedPowerConsumption;
     public double RatedPowerConsumption { get => _ratedPowerConsumption; private set => SetProperty(ref _ratedPowerConsumption, value); }
-    public ObservableCollection<ReceiverMode> ReceiverModes { get; }
+    public ObservableCollection<ReceiverModeParameters> ModesParameters { get; }
     public Receiver() {
-        ReceiverModes = new();
+        ModesParameters = new();
         PropertyChanged += PropertyCalcHandler;
     }
     ~Receiver() {
@@ -39,14 +39,14 @@ public partial class Receiver : ObservableObject {
                 break;
         }
     }
-    public ReceiverMode AddMode(ReceiverModeMemento memento) {
-        ReceiverMode mode = new(this, memento);
-        ReceiverModes.Add(mode);
-        return mode;
+    public ReceiverModeParameters AddMode(ReceiverMode receiverMode) {
+        ReceiverModeParameters parameters = receiverMode.AddReceiverModeParametersTo(this);
+        ModesParameters.Add(parameters);
+        return parameters;
     }
-    public ReceiverMode RemoveMode(ReceiverModeMemento memento) {
-        ReceiverMode mode = ReceiverModes.First(m => m.ID == memento.ID);
-        ReceiverModes.Remove(mode);
-        return mode;
+    public ReceiverModeParameters RemoveMode(ReceiverMode receiverMode) {
+        ReceiverModeParameters parameters = receiverMode.RemoveReceiverModeParametersFrom(this);
+        ModesParameters.Remove(parameters);
+        return parameters;
     }
 }

@@ -7,6 +7,27 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SeaCalculator.Models;
 public partial class ReceiverMode : ObservableObject {
+    [ObservableProperty]
+    public string _name;
+    public readonly Guid ID;
+    public List<ReceiverModeParameters> receiverModeParameters { get; }
+    public ReceiverMode(Guid id, string name = "") {
+        ID = id;
+        Name = name;
+        receiverModeParameters = new();
+    }
+    public ReceiverModeParameters AddReceiverModeParametersTo(Receiver receiver) {
+        ReceiverModeParameters parameters = new(receiver, ID);
+        receiverModeParameters.Add(parameters);
+        return parameters;
+    }
+    public ReceiverModeParameters RemoveReceiverModeParametersFrom(Receiver receiver) {
+        ReceiverModeParameters parameters = receiver.ModesParameters.First(m => m.ID == ID);
+        receiverModeParameters.Remove(parameters);
+        return parameters;
+    }
+}
+public partial class ReceiverModeParameters : ObservableObject {
     public static List<WorkMode> WorkModesList { get; }
     public enum WorkMode {
         Continuous,
@@ -14,7 +35,7 @@ public partial class ReceiverMode : ObservableObject {
         Episodic
     }
     private readonly Receiver receiver;
-    public readonly Guid ID;
+    public Guid ID { get; }
     [ObservableProperty]
     private WorkMode _mode;
     [ObservableProperty]
@@ -27,20 +48,17 @@ public partial class ReceiverMode : ObservableObject {
     public double ActivePower {get => _activePower; private set => SetProperty(ref _activePower, value); }
     private double _reactivePower;
     public double ReactivePower {get => _reactivePower; private set => SetProperty(ref _reactivePower, value); }
-    static ReceiverMode() {
+    static ReceiverModeParameters() {
         WorkModesList = typeof(WorkMode).GetEnumValues().Cast<WorkMode>().ToList();
     }
-    public ReceiverMode(Receiver _receiver, ReceiverModeMemento memento) {
+    public ReceiverModeParameters(Receiver _receiver, Guid id) {
         receiver = _receiver;
-        ID = memento.ID;
-        Mode = memento.Mode;
-        LoadFactor = memento.LoadFactor;
-        Cos = memento.Cos;
+        ID = id;
 
         PropertyChanged += PropertyCalcHandler;
         receiver.PropertyChanged += PropertyCalcHandler;
     }
-    ~ReceiverMode() {
+    ~ReceiverModeParameters() {
         PropertyChanged -= PropertyCalcHandler;
         receiver.PropertyChanged -= PropertyCalcHandler;
     }
@@ -64,23 +82,5 @@ public partial class ReceiverMode : ObservableObject {
                 }
                 break;
         }
-    }
-}
-public class ReceiverModeMemento {
-    public string Name { get; set; }
-    public readonly Guid ID;
-    public readonly ReceiverMode.WorkMode Mode;
-    public readonly double LoadFactor;
-    public readonly double Cos;
-    public ReceiverModeMemento(in Guid id) {
-        ID = id;
-        Name = "";
-    }
-    public ReceiverModeMemento(in Guid id, in string name, in ReceiverMode.WorkMode mode, in double loadFactor, in double cos) {
-        ID = id;
-        Name = name;
-        Mode = mode;
-        LoadFactor = loadFactor;
-        Cos = cos;
     }
 }
