@@ -2,49 +2,76 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:SeaCalculator.ViewModels"
         xmlns:m="using:SeaCalculator.Models"
+        xmlns:assets="clr-namespace:SeaCalculator.Assets"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SeaCalculator.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
+        MinWidth="500"
+        MinHeight="250"
+        Width="1000"
+        Height="500"
         Title="SeaCalculator">
     <Design.DataContext><vm:MainWindowViewModel/></Design.DataContext>
+    <Window.Resources>
+        <m:WorkModeLocalizationConverter x:Key="WorkModeLocalizationConverter"/>
+    </Window.Resources>
     <Window.Styles>
         <Style Selector="TextBox.WorkModeName">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
-        <Style Selector="TextBox.NotWriteble">
+        <Style Selector="TextBox.Title">
             <!-- <Setter Property="Margin" Value="0,8,0,8"/> -->
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Focusable" Value="False"/>
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
         <Style Selector="TextBox">
             <Setter Property="MinWidth" Value="30"/>
         </Style>
     </Window.Styles>
+
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
         <RelativePanel>
             <StackPanel x:Name="ReceiversGrid" Orientation="Vertical" RelativePanel.AlignLeftWithPanel="True">
-                <TextBox Classes="NotWriteble" Text="Receivers" MinLines="3"/>
+                <TextBox Classes="Title" Text="{x:Static assets:Lang.ReceiversTitle}" Height="64"/>
                 <DataGrid ItemsSource="{Binding receiverManager.Receivers}"
+                            MaxWidth="{Binding $parent[Window].Width}"
+                            MaxHeight="{Binding $parent[Window].Height}"
                             CanUserReorderColumns="False"
                             CanUserResizeColumns="False"
                             CanUserSortColumns="False"
                             GridLinesVisibility="All"
                             BorderThickness="1" BorderBrush="Gray">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name"  Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
-                        <DataGridTextColumn Header="RatedSteadyPower" Binding="{Binding RatedSteadyPower}"/>
-                        <DataGridTextColumn Header="Cos" Binding="{Binding Cos}"/>
-                        <DataGridTextColumn Header="Efficiency" Binding="{Binding Efficiency}"/>
-                        <DataGridTextColumn IsReadOnly="True" Header="RatedPowerConsumption" Binding="{Binding RatedPowerConsumption}"/>
+                        <DataGridTextColumn Header="{x:Static assets:Lang.Name}"
+                                            Binding="{Binding Name}"/>
+
+                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnCountTitle}"
+                                            Binding="{Binding Count}"/>
+
+                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnRatedSteadyPowerTitle}"
+                                            Binding="{Binding RatedSteadyPower}"/>
+
+                        <DataGridTextColumn Header="{x:Static assets:Lang.CosPhi}"
+                                            Binding="{Binding Cos}"/>
+
+                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnEfficiencyTitle}"
+                                            Binding="{Binding Efficiency}"/>
+
+                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnRatedPowerConsumptionTitle}"
+                                            Binding="{Binding RatedPowerConsumption}"
+                                            IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
             <StackPanel x:Name="ReceiversModesGrid" Orientation="Vertical" RelativePanel.RightOf="ReceiversGrid">
-                <TextBox Classes="NotWriteble" Text="ReceiversModes"/>
+                <TextBox Classes="Title" Text="{x:Static assets:Lang.ReceiverModesTitle}"/>
                 <ItemsControl ItemsSource="{Binding receiverManager.ReceiverModes}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -56,29 +83,40 @@
                             <StackPanel Orientation="Vertical">
                                 <TextBox Classes="WorkModeName" Text="{Binding Name}"/>
                                 <DataGrid ItemsSource="{Binding receiverModeParameters}" 
+                                            MaxWidth="{Binding $parent[Window].Width}"
+                                            MaxHeight="{Binding $parent[Window].Height}"
                                             CanUserReorderColumns="False"
                                             CanUserResizeColumns="False"
                                             CanUserSortColumns="False"
                                             GridLinesVisibility="All"
                                             BorderThickness="1" BorderBrush="Gray">
                                     <DataGrid.Columns>
-                                        <DataGridTemplateColumn Header="WorkMode">
+                                        <DataGridTemplateColumn Header="{x:Static assets:Lang.ReceiverModesWorkModeTitle}"
+                                                                IsReadOnly="False">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate DataType="m:ReceiverModeParameters"> 
-                                                    <ComboBox ItemsSource="{Binding WorkModesList}" SelectedItem="{Binding Mode}" />
+                                                    <ComboBox ItemsSource="{Binding WorkModesList, Converter={StaticResource WorkModeLocalizationConverter}}"
+                                                              SelectedItem="{Binding Mode, Converter={StaticResource WorkModeLocalizationConverter}}" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.CellEditingTemplate>
-                                                <DataTemplate DataType="m:ReceiverModeParameters">
-                                                    <ComboBox ItemsSource="{Binding WorkModesList}" SelectedItem="{Binding Mode}" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellEditingTemplate>
                                         </DataGridTemplateColumn>
-                                        <DataGridTextColumn Header="LoadFactor"  Binding="{Binding LoadFactor}"/>
-                                        <DataGridTextColumn Header="Cos" Binding="{Binding Cos}"/>
-                                        <DataGridTextColumn Header="Count" Binding="{Binding WorkingReceiversCount}"/>
-                                        <DataGridTextColumn IsReadOnly="True" Header="ActivePower" Binding="{Binding ActivePower}"/>
-                                        <DataGridTextColumn IsReadOnly="True" Header="ReactivePower" Binding="{Binding ReactivePower}"/>
+
+                                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesLoadFactorTitle}"
+                                                            Binding="{Binding LoadFactor}"/>
+
+                                        <DataGridTextColumn Header="{x:Static assets:Lang.CosPhi}"
+                                                            Binding="{Binding Cos}"/>
+
+                                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesCountTitle}"
+                                                            Binding="{Binding WorkingReceiversCount}"/>
+                                        
+                                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesActivePowerTitle}"
+                                                            Binding="{Binding ActivePower}"
+                                                            IsReadOnly="True"/>
+
+                                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesReactivePowerTitle}"
+                                                            Binding="{Binding ReactivePower}"
+                                                            IsReadOnly="True"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </StackPanel>

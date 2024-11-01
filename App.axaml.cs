@@ -1,10 +1,13 @@
+using SeaCalculator.Assets;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using HarfBuzzSharp;
 using SeaCalculator.ViewModels;
 using SeaCalculator.Views;
+using System.Globalization;
 
 namespace SeaCalculator;
 
@@ -17,6 +20,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        Lang.Culture = CultureInfo.CurrentCulture;
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Line below is needed to remove Avalonia data validation.

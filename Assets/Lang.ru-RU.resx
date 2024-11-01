@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ReceiversTitle" xml:space="preserve">
+    <value>Приёмники электроэнергии</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="ReceiverColumnCountTitle" xml:space="preserve">
+    <value>n*</value>
+  </data>
+  <data name="ReceiverColumnRatedSteadyPowerTitle" xml:space="preserve">
+    <value>Pн.у
+кВт</value>
+  </data>
+  <data name="CosPhi" xml:space="preserve">
+    <value>cos</value>
+  </data>
+  <data name="ReceiverColumnEfficiencyTitle" xml:space="preserve">
+    <value>КПД</value>
+  </data>
+  <data name="ReceiverColumnRatedPowerConsumptionTitle" xml:space="preserve">
+    <value>Pн.п
+кВт</value>
+  </data>
+  <data name="ReceiverModesTitle" xml:space="preserve">
+    <value>Параметры приёмника в режимах</value>
+  </data>
+  <data name="ReceiverModesWorkModeTitle" xml:space="preserve">
+    <value>Граф.
+раб.</value>
+  </data>
+  <data name="ReceiverModesWorkModeContinuesTitle" xml:space="preserve">
+    <value>НР</value>
+    <comment>Непрерывный - НР</comment>
+  </data>
+  <data name="ReceiverModesWorkModePeriodicTitle" xml:space="preserve">
+    <value>ПР</value>
+    <comment>Периодический - ПР</comment>
+  </data>
+  <data name="ReceiverModesWorkModeEpisodicTitle" xml:space="preserve">
+    <value>ЭР</value>
+    <comment>Эпизодический - ЭР</comment>
+  </data>
+  <data name="ReceiverModesLoadFactorTitle" xml:space="preserve">
+    <value>Кз</value>
+  </data>
+  <data name="ReceiverModesCountTitle" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="ReceiverModesActivePowerTitle" xml:space="preserve">
+    <value>P
+кВт</value>
+  </data>
+  <data name="ReceiverModesReactivePowerTitle" xml:space="preserve">
+    <value>Q
+кВА</value>
+  </data>
+  <data name="е" xml:space="preserve">
+    <value>е</value>
+  </data>
+</root>
