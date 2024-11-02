@@ -126,7 +126,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <Grid x:Name="GeneratorLoadGrid" RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto" Grid.Row="1" Grid.Column="0">
+            <Grid x:Name="GeneratorLoadGridTitles" RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto" Grid.Row="1" Grid.Column="0">
                 <TextBox Grid.Row="0" Classes="Title" Text="{x:Static assets:Lang.ContinuouslyOperatingActiveAndReactivePowers}" />
                 <TextBox Grid.Row="1" Classes="Title" Text="{x:Static assets:Lang.PeriodicOperatingActiveAndReactivePowers}" />
                 <TextBox Grid.Row="2" Classes="Title" Text="{x:Static assets:Lang.TotalOperatingPowers}" />
@@ -140,34 +140,9 @@
                         <TextBox Grid.Row="2" Classes="Title" Text="{x:Static assets:Lang.WeightedAveragePowerFactor}" />
                     </Grid>
                 </Grid>
-                <!-- <DataGrid Grid.Column="1" ItemsSource="{Binding receiverModeParameters}"
-                            MaxWidth="{Binding $parent[Window].Width}"
-                            MaxHeight="{Binding $parent[Window].Height}"
-                            CanUserReorderColumns="False"
-                            CanUserResizeColumns="False"
-                            CanUserSortColumns="False"
-                            GridLinesVisibility="All"
-                            BorderThickness="1" BorderBrush="Gray">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesLoadFactorTitle}"
-                                            Binding="{Binding LoadFactor}"/>
-
-                        <DataGridTextColumn Header="{x:Static assets:Lang.CosPhi}"
-                                            Binding="{Binding Cos}"/>
-
-                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesCountTitle}"
-                                            Binding="{Binding WorkingReceiversCount}"/>
-                        
-                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesActivePowerTitle}"
-                                            Binding="{Binding ActivePower}"
-                                            IsReadOnly="True"/>
-
-                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesReactivePowerTitle}"
-                                            Binding="{Binding ReactivePower}"
-                                            IsReadOnly="True"/>
-                    </DataGrid.Columns>
-                </DataGrid> -->
             </Grid>
+            <ItemsControl x:Name="GeneratorLoadGrid" Grid.Row="1" Grid.Column="1">
+            </ItemsControl>
         </Grid>
     </ScrollViewer>
 </Window>

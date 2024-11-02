@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using Avalonia.Data;
@@ -10,7 +11,7 @@ public partial class ReceiverMode : ObservableObject {
     [ObservableProperty]
     public string _name;
     public readonly Guid ID;
-    public List<ReceiverModeParameters> receiverModeParameters { get; }
+    public ObservableCollection<ReceiverModeParameters> receiverModeParameters { get; }
     public ReceiverMode(Guid id, string name = "") {
         ID = id;
         Name = name;
