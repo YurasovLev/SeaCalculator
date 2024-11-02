@@ -106,4 +106,31 @@
   <data name="ReceiverModesReactivePowerTitle" xml:space="preserve">
     <value>Reactive power</value>
   </data>
+  <data name="ContinuouslyOperatingActiveAndReactivePowers" xml:space="preserve">
+    <value>ContinuouslyOperatingActiveAndReactivePowers</value>
+  </data>
+  <data name="PeriodicOperatingActiveAndReactivePowers" xml:space="preserve">
+    <value>PeriodicOperatingActiveAndReactivePowers</value>
+  </data>
+  <data name="TotalOperatingPowers" xml:space="preserve">
+    <value>TotalOperatingPowers</value>
+  </data>
+  <data name="CoefficientTimeDifference" xml:space="preserve">
+    <value>CoefficientTimeDifference</value>
+  </data>
+  <data name="PowerLossFactor" xml:space="preserve">
+    <value>PowerLossFactor</value>
+  </data>
+  <data name="GeneratorPower" xml:space="preserve">
+    <value>GeneratorPower</value>
+  </data>
+  <data name="GeneratorActiveAndReactivePowers" xml:space="preserve">
+    <value>GeneratorActiveAndReactivePowers</value>
+  </data>
+  <data name="GeneratorFullPower" xml:space="preserve">
+    <value>GeneratorFullPower</value>
+  </data>
+  <data name="WeightedAveragePowerFactor" xml:space="preserve">
+    <value>WeightedAveragePowerFactor</value>
+  </data>
 </root>

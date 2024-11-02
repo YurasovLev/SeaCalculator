@@ -24,6 +24,7 @@
         </Style>
         <Style Selector="TextBox.Title">
             <!-- <Setter Property="Margin" Value="0,8,0,8"/> -->
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -32,15 +33,16 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
         <Style Selector="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="MinWidth" Value="30"/>
         </Style>
     </Window.Styles>
 
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-        <RelativePanel>
-            <StackPanel x:Name="ReceiversGrid" Orientation="Vertical" RelativePanel.AlignLeftWithPanel="True">
-                <TextBox Classes="Title" Text="{x:Static assets:Lang.ReceiversTitle}" Height="64"/>
-                <DataGrid ItemsSource="{Binding receiverManager.Receivers}"
+        <Grid ColumnDefinitions="auto,*" RowDefinitions="auto,*">
+            <Grid RowDefinitions="auto,*" x:Name="ReceiversGrid" Grid.Row="0" Grid.Column="0">
+                <TextBox Grid.Row="0" Classes="Title" Text="{x:Static assets:Lang.ReceiversTitle}" MinHeight="64"/>
+                <DataGrid  Grid.Row="1" ItemsSource="{Binding receiverManager.Receivers}"
                             MaxWidth="{Binding $parent[Window].Width}"
                             MaxHeight="{Binding $parent[Window].Height}"
                             CanUserReorderColumns="False"
@@ -69,10 +71,10 @@
                                             IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
-            </StackPanel>
-            <StackPanel x:Name="ReceiversModesGrid" Orientation="Vertical" RelativePanel.RightOf="ReceiversGrid">
-                <TextBox Classes="Title" Text="{x:Static assets:Lang.ReceiverModesTitle}"/>
-                <ItemsControl ItemsSource="{Binding receiverManager.ReceiverModes}">
+            </Grid>
+            <Grid RowDefinitions="auto,auto" x:Name="ReceiversModesGrid" Grid.Row="0" Grid.Column="1">
+                <TextBox Grid.Row="0" Classes="Title" Text="{x:Static assets:Lang.ReceiverModesTitle}"/>
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding receiverManager.ReceiverModes}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -123,7 +125,49 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </StackPanel>
-        </RelativePanel>
+            </Grid>
+            <Grid x:Name="GeneratorLoadGrid" RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto" Grid.Row="1" Grid.Column="0">
+                <TextBox Grid.Row="0" Classes="Title" Text="{x:Static assets:Lang.ContinuouslyOperatingActiveAndReactivePowers}" />
+                <TextBox Grid.Row="1" Classes="Title" Text="{x:Static assets:Lang.PeriodicOperatingActiveAndReactivePowers}" />
+                <TextBox Grid.Row="2" Classes="Title" Text="{x:Static assets:Lang.TotalOperatingPowers}" />
+                <TextBox Grid.Row="3" Classes="Title" Text="{x:Static assets:Lang.CoefficientTimeDifference}" />
+                <TextBox Grid.Row="4" Classes="Title" Text="{x:Static assets:Lang.PowerLossFactor}" />
+                <Grid ColumnDefinitions="auto,*" Grid.Row="5">
+                    <TextBox Grid.Column="0" Classes="Title" Text="{x:Static assets:Lang.GeneratorPower}" MinHeight="64"/>
+                    <Grid RowDefinitions="auto,auto,auto" Grid.Column="1">
+                        <TextBox Grid.Row="0" Classes="Title" Text="{x:Static assets:Lang.GeneratorActiveAndReactivePowers}" />
+                        <TextBox Grid.Row="1" Classes="Title" Text="{x:Static assets:Lang.GeneratorFullPower}" />
+                        <TextBox Grid.Row="2" Classes="Title" Text="{x:Static assets:Lang.WeightedAveragePowerFactor}" />
+                    </Grid>
+                </Grid>
+                <!-- <DataGrid Grid.Column="1" ItemsSource="{Binding receiverModeParameters}"
+                            MaxWidth="{Binding $parent[Window].Width}"
+                            MaxHeight="{Binding $parent[Window].Height}"
+                            CanUserReorderColumns="False"
+                            CanUserResizeColumns="False"
+                            CanUserSortColumns="False"
+                            GridLinesVisibility="All"
+                            BorderThickness="1" BorderBrush="Gray">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesLoadFactorTitle}"
+                                            Binding="{Binding LoadFactor}"/>
+
+                        <DataGridTextColumn Header="{x:Static assets:Lang.CosPhi}"
+                                            Binding="{Binding Cos}"/>
+
+                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesCountTitle}"
+                                            Binding="{Binding WorkingReceiversCount}"/>
+                        
+                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesActivePowerTitle}"
+                                            Binding="{Binding ActivePower}"
+                                            IsReadOnly="True"/>
+
+                        <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesReactivePowerTitle}"
+                                            Binding="{Binding ReactivePower}"
+                                            IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid> -->
+            </Grid>
+        </Grid>
     </ScrollViewer>
 </Window>

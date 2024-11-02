@@ -114,7 +114,33 @@
     <value>Q
 кВА</value>
   </data>
-  <data name="е" xml:space="preserve">
-    <value>е</value>
+  <data name="ContinuouslyOperatingActiveAndReactivePowers" xml:space="preserve">
+    <value>Pнр, Qнр</value>
+  </data>
+  <data name="PeriodicOperatingActiveAndReactivePowers" xml:space="preserve">
+    <value>Pпр, Qпр</value>
+  </data>
+  <data name="TotalOperatingPowers" xml:space="preserve">
+    <value>Pс, Qс</value>
+  </data>
+  <data name="CoefficientTimeDifference" xml:space="preserve">
+    <value>Kр</value>
+  </data>
+  <data name="PowerLossFactor" xml:space="preserve">
+    <value>Kп</value>
+  </data>
+  <data name="GeneratorPower" xml:space="preserve">
+    <value>Нагрузка
+
+генераторов</value>
+  </data>
+  <data name="GeneratorActiveAndReactivePowers" xml:space="preserve">
+    <value>Pнг, Qнг</value>
+  </data>
+  <data name="GeneratorFullPower" xml:space="preserve">
+    <value>Sнг</value>
+  </data>
+  <data name="WeightedAveragePowerFactor" xml:space="preserve">
+    <value>COSср</value>
   </data>
 </root>

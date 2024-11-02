@@ -1,4 +1,5 @@
 namespace SeaCalculator.Assets {
+    using System;
     using System.Resources;
     using System.Globalization;
 
@@ -91,11 +92,13 @@ namespace SeaCalculator.Assets {
                 return ResourceManager.GetString("ReceiverModesWorkModeContinuesTitle", resourceCulture);
             }
         }
+
         public static string ReceiverModesWorkModePeriodicTitle {
             get {
                 return ResourceManager.GetString("ReceiverModesWorkModePeriodicTitle", resourceCulture);
             }
         }
+
         public static string ReceiverModesWorkModeEpisodicTitle {
             get {
                 return ResourceManager.GetString("ReceiverModesWorkModeEpisodicTitle", resourceCulture);
@@ -123,6 +126,60 @@ namespace SeaCalculator.Assets {
         public static string ReceiverModesReactivePowerTitle {
             get {
                 return ResourceManager.GetString("ReceiverModesReactivePowerTitle", resourceCulture);
+            }
+        }
+
+        public static string ContinuouslyOperatingActiveAndReactivePowers {
+            get {
+                return ResourceManager.GetString("ContinuouslyOperatingActiveAndReactivePowers", resourceCulture);
+            }
+        }
+
+        public static string PeriodicOperatingActiveAndReactivePowers {
+            get {
+                return ResourceManager.GetString("PeriodicOperatingActiveAndReactivePowers", resourceCulture);
+            }
+        }
+
+        public static string TotalOperatingPowers {
+            get {
+                return ResourceManager.GetString("TotalOperatingPowers", resourceCulture);
+            }
+        }
+
+        public static string CoefficientTimeDifference {
+            get {
+                return ResourceManager.GetString("CoefficientTimeDifference", resourceCulture);
+            }
+        }
+
+        public static string PowerLossFactor {
+            get {
+                return ResourceManager.GetString("PowerLossFactor", resourceCulture);
+            }
+        }
+
+        public static string GeneratorPower {
+            get {
+                return ResourceManager.GetString("GeneratorPower", resourceCulture);
+            }
+        }
+
+        public static string GeneratorActiveAndReactivePowers {
+            get {
+                return ResourceManager.GetString("GeneratorActiveAndReactivePowers", resourceCulture);
+            }
+        }
+
+        public static string GeneratorFullPower {
+            get {
+                return ResourceManager.GetString("GeneratorFullPower", resourceCulture);
+            }
+        }
+
+        public static string WeightedAveragePowerFactor {
+            get {
+                return ResourceManager.GetString("WeightedAveragePowerFactor", resourceCulture);
             }
         }
 
