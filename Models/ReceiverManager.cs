@@ -33,7 +33,7 @@ public class ReceiverManager : ObservableObject {
         return receiver;
     }
     public ReceiverMode AddReceiverMode() {
-        ReceiverMode mode = new(Guid.NewGuid());
+        ReceiverMode mode = new();
         ReceiverModes.Add(mode);
         return mode;
     }
