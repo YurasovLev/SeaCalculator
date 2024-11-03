@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace SeaCalculator.Models;
 
 public class ReceiverManager : ObservableObject {
+    private readonly WhenCollectionChangedHandler<ReceiverMode> ReceiverModeUpdatesHandler;
     public ObservableCollection<Receiver> Receivers { get; }
     public ObservableCollection<ReceiverMode> ReceiverModes { get; }
     public GeneratorLoad generatorLoad { get; }
@@ -14,10 +15,20 @@ public class ReceiverManager : ObservableObject {
         Receivers = new();
         ReceiverModes = new();
         generatorLoad = new (ReceiverModes);
-        ReceiverModes.CollectionChanged += ReceiverModeUpdatesHandler;
+        ReceiverModeUpdatesHandler = new(
+            AddedMode => {
+                foreach(var receiver in Receivers)
+                    receiver.AddMode(AddedMode);
+            },
+            RemovedMode => {
+                foreach(var receiver in Receivers)
+                    receiver.RemoveMode(RemovedMode);
+            }
+        );
+        ReceiverModes.CollectionChanged += ReceiverModeUpdatesHandler.Handler;
     }
     ~ReceiverManager() {
-        ReceiverModes.CollectionChanged -= ReceiverModeUpdatesHandler;
+        ReceiverModes.CollectionChanged -= ReceiverModeUpdatesHandler.Handler;
     }
     public Receiver AddReceiver() {
         Receiver receiver = new();
@@ -40,31 +51,5 @@ public class ReceiverManager : ObservableObject {
     public ReceiverMode RemoveReceiverMode(ReceiverMode parameters) {
         ReceiverModes.Remove(parameters);
         return parameters;
-    }
-    public void ReceiverModeUpdatesHandler(object? sender, NotifyCollectionChangedEventArgs e) {
-        switch(e.Action) {
-            case NotifyCollectionChangedAction.Add:
-                if(e.NewItems is not null)
-                    foreach(ReceiverMode mode in e.NewItems)
-                        foreach(var receiver in Receivers)
-                            receiver.AddMode(mode);
-                break;
-            case NotifyCollectionChangedAction.Replace:
-                if(e.OldItems is not null)
-                    foreach(ReceiverMode mode in e.OldItems)
-                        foreach(var receiver in Receivers)
-                            receiver.RemoveMode(mode);
-                if(e.NewItems is not null)
-                    foreach(ReceiverMode mode in e.NewItems)
-                        foreach(var receiver in Receivers)
-                            receiver.AddMode(mode);
-                break;
-            case NotifyCollectionChangedAction.Remove:
-                if(e.OldItems is not null)
-                    foreach(ReceiverMode mode in e.OldItems)
-                        foreach(var receiver in Receivers)
-                            receiver.RemoveMode(mode);
-                break;
-        }
     }
 }

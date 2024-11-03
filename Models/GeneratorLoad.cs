@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace SeaCalculator.Models;
 
 public class GeneratorLoad : ObservableObject {
+    private readonly WhenCollectionChangedHandler<ReceiverMode> ReceiverModesUpdateHandler;
     public ObservableCollection<GeneratorLoadParameters> loadParameters { get; }
     private ObservableCollection<ReceiverMode> receiverModes;
     public GeneratorLoad(ObservableCollection<ReceiverMode> _receiverModes) {
@@ -15,32 +16,14 @@ public class GeneratorLoad : ObservableObject {
         loadParameters = new ObservableCollection<GeneratorLoadParameters>();
         foreach(var mode in receiverModes)
             AddGeneratorLoadParametersToReceiverMode(mode);
-        receiverModes.CollectionChanged += ReceiverModesUpdateHandler;
+        ReceiverModesUpdateHandler = new(
+            AddedMode => AddGeneratorLoadParametersToReceiverMode(AddedMode),
+            RemovedMode => RemoveGeneratorLoadParametersToReceiverMode(RemovedMode)
+        );
+        receiverModes.CollectionChanged += ReceiverModesUpdateHandler.Handler;
     }
     ~GeneratorLoad() {
-        receiverModes.CollectionChanged -= ReceiverModesUpdateHandler;
-    }
-    public void ReceiverModesUpdateHandler(object? sender, NotifyCollectionChangedEventArgs e) {
-        switch (e.Action) {
-            case NotifyCollectionChangedAction.Add:
-                if(e.NewItems is not null)
-                    foreach(ReceiverMode mode in e.NewItems)
-                        AddGeneratorLoadParametersToReceiverMode(mode);
-                break;
-            case NotifyCollectionChangedAction.Remove:
-                if(e.OldItems is not null)
-                    foreach(ReceiverMode mode in e.OldItems)
-                        RemoveGeneratorLoadParametersToReceiverMode(mode);
-                break;
-            case NotifyCollectionChangedAction.Replace:
-                if(e.NewItems is not null)
-                    foreach(ReceiverMode mode in e.NewItems)
-                        AddGeneratorLoadParametersToReceiverMode(mode);
-                if(e.OldItems is not null)
-                    foreach(ReceiverMode mode in e.OldItems)
-                        RemoveGeneratorLoadParametersToReceiverMode(mode);
-                break;
-        }
+        receiverModes.CollectionChanged -= ReceiverModesUpdateHandler.Handler;
     }
     public GeneratorLoadParameters AddGeneratorLoadParametersToReceiverMode(ReceiverMode receiverMode) {
         GeneratorLoadParameters parameters = new GeneratorLoadParameters(receiverMode);
@@ -55,6 +38,7 @@ public class GeneratorLoad : ObservableObject {
 }
 
 public partial class GeneratorLoadParameters : ObservableObject {
+    private readonly WhenCollectionChangedHandler<ReceiverModeParameters> ReceiverParametersRegisterHandler;
     public readonly ReceiverMode receiverMode;
     [ObservableProperty]
     public double continuouslyOperatingActivePower;
@@ -83,37 +67,19 @@ public partial class GeneratorLoadParameters : ObservableObject {
     public GeneratorLoadParameters(ReceiverMode _receiverMode) {
         receiverMode = _receiverMode;
         PropertyChanged += CalcParametersHandler;
+        ReceiverParametersRegisterHandler = new(
+            AddedParameters => AddedParameters.PropertyChanged += CalcParametersHandler,
+            RemovedParameters => RemovedParameters.PropertyChanged -= CalcParametersHandler
+        );
         foreach(var parameters in receiverMode.receiverModeParameters)
             parameters.PropertyChanged += CalcParametersHandler;
-        receiverMode.receiverModeParameters.CollectionChanged += ReceiverParametersRegisterHandler;
+        receiverMode.receiverModeParameters.CollectionChanged += ReceiverParametersRegisterHandler.Handler;
     }
     ~GeneratorLoadParameters() {
         PropertyChanged -= CalcParametersHandler;
-        receiverMode.receiverModeParameters.CollectionChanged -= ReceiverParametersRegisterHandler;
+        receiverMode.receiverModeParameters.CollectionChanged -= ReceiverParametersRegisterHandler.Handler;
         foreach(var parameters in receiverMode.receiverModeParameters)
             parameters.PropertyChanged -= CalcParametersHandler;
-    }
-    private void ReceiverParametersRegisterHandler(object? sender, NotifyCollectionChangedEventArgs e) {
-        switch(e.Action) {
-            case NotifyCollectionChangedAction.Add:
-                if(e.NewItems is not null)
-                    foreach(ReceiverModeParameters parameters in e.NewItems)
-                        parameters.PropertyChanged += CalcParametersHandler;
-                break;
-            case NotifyCollectionChangedAction.Replace:
-                if(e.OldItems is not null)
-                    foreach(ReceiverModeParameters parameters in e.OldItems)
-                        parameters.PropertyChanged -= CalcParametersHandler;
-                if(e.NewItems is not null)
-                    foreach(ReceiverModeParameters parameters in e.NewItems)
-                        parameters.PropertyChanged += CalcParametersHandler;
-                break;
-            case NotifyCollectionChangedAction.Remove:
-                if(e.OldItems is not null)
-                    foreach(ReceiverModeParameters parameters in e.OldItems)
-                        parameters.PropertyChanged -= CalcParametersHandler;
-                break;
-        }
     }
     private double CalcContinuouslyOperatingActivePower() {
         var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Continuous);
