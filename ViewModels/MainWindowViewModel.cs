@@ -8,18 +8,10 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel() {
         receiverManager = new();
         #if DEBUG
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= 2; i++)
                 receiverManager.AddReceiver().Name = "TestReceiver" + i;
-            for(int j = 1; j <= 3; j++)
+            for(int j = 1; j <= 1; j++)
                 receiverManager.AddReceiverMode().Name = "TestMode" + j;
-            receiverManager.AddReceiverMode().Name = "FinalTestMode";
-            receiverManager.AddReceiver().Name = "FinalTestReceiver";
-            Receiver TestToRemove = receiverManager.AddReceiver();
-            ReceiverMode TestModeToRemove = receiverManager.AddReceiverMode();
-            TestToRemove.Name = "Removed!!";
-            TestModeToRemove.Name = "Removed!!";
-            receiverManager.RemoveReceiver(TestToRemove);
-            receiverManager.RemoveReceiverMode(TestModeToRemove);
         #endif
     }
 }

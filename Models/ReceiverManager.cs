@@ -8,10 +8,12 @@ namespace SeaCalculator.Models;
 public class ReceiverManager : ObservableObject {
     public ObservableCollection<Receiver> Receivers { get; }
     public ObservableCollection<ReceiverMode> ReceiverModes { get; }
+    public GeneratorLoad generatorLoad { get; }
     public ReceiverManager()
     {
         Receivers = new();
         ReceiverModes = new();
+        generatorLoad = new (ReceiverModes);
         ReceiverModes.CollectionChanged += ReceiverModeUpdatesHandler;
     }
     ~ReceiverManager() {

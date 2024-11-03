@@ -24,22 +24,24 @@
         </Style>
         <Style Selector="TextBox.Title">
             <!-- <Setter Property="Margin" Value="0,8,0,8"/> -->
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Focusable" Value="False"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
         <Style Selector="ComboBox">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
         <Style Selector="TextBox">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="MinWidth" Value="30"/>
         </Style>
     </Window.Styles>
 
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-        <Grid ColumnDefinitions="auto,*" RowDefinitions="auto,*">
+        <Grid ColumnDefinitions="auto,*" RowDefinitions="auto,*" IsSharedSizeScope="True">
             <Grid RowDefinitions="auto,*" x:Name="ReceiversGrid" Grid.Row="0" Grid.Column="0">
                 <TextBox Grid.Row="0" Classes="Title" Text="{x:Static assets:Lang.ReceiversTitle}" MinHeight="64"/>
                 <DataGrid  Grid.Row="1" ItemsSource="{Binding receiverManager.Receivers}"
@@ -82,9 +84,12 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <TextBox Classes="WorkModeName" Text="{Binding Name}"/>
-                                <DataGrid ItemsSource="{Binding receiverModeParameters}" 
+                            <Grid RowDefinitions="auto,auto">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="WorkModeColumn" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Row="0" Grid.Column="0" Classes="WorkModeName" Text="{Binding Name}"/>
+                                <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding receiverModeParameters}" 
                                             MaxWidth="{Binding $parent[Window].Width}"
                                             MaxHeight="{Binding $parent[Window].Height}"
                                             CanUserReorderColumns="False"
@@ -121,7 +126,7 @@
                                                             IsReadOnly="True"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
-                            </StackPanel>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -141,7 +146,44 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <ItemsControl x:Name="GeneratorLoadGrid" Grid.Row="1" Grid.Column="1">
+            <ItemsControl x:Name="GeneratorLoadGrid" ItemsSource="{Binding receiverManager.generatorLoad.loadParameters}" Grid.Row="1" Grid.Column="1">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="WorkModeColumn" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto,auto">
+                                <TextBox Classes="Title" Grid.Row="0" Grid.Column="0"                     Text=""/>
+                                <TextBox Classes="Title" Grid.Row="1" Grid.Column="0"                     Text=""/>
+                                <TextBox Classes="Title" Grid.Row="2" Grid.Column="0"                     Text=""/>
+                                <TextBox Classes="Title" Grid.Row="3" Grid.Column="0"                     Text=""/>
+                                <TextBox Classes="Title" Grid.Row="4" Grid.Column="0"                     Text=""/>
+                                <TextBox Classes="Title" Grid.Row="5" Grid.Column="0"                     Text=""/>
+                                <TextBox Classes="Title" Grid.Row="6" Grid.Column="0"                     Text=""/>
+                                <TextBox Classes="Title" Grid.Row="7" Grid.Column="0"                     Text=""/>
+
+                                <TextBox Classes="Title" Grid.Row="0" Grid.Column="1"                     Text="{Binding ContinuouslyOperatingActivePower}"/>
+                                <TextBox Classes="Title" Grid.Row="0" Grid.Column="2"                     Text="{Binding ContinuouslyOperatingReactivePower}"/>
+                                <TextBox Classes="Title" Grid.Row="1" Grid.Column="1"                     Text="{Binding PeriodicOperatingActivePower}"/>
+                                <TextBox Classes="Title" Grid.Row="1" Grid.Column="2"                     Text="{Binding PeriodicOperatingReactivePower}"/>
+                                <TextBox Classes="Title" Grid.Row="2" Grid.Column="1"                     Text="{Binding TotalActivePower}"/>
+                                <TextBox Classes="Title" Grid.Row="2" Grid.Column="2"                     Text="{Binding TotalReactivePower}"/>
+                                <TextBox MinWidth="160"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CoefficientTimeDifference}"/>
+                                <TextBox                 Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PowerLossFactor}"/>
+                                <TextBox Classes="Title" Grid.Row="5" Grid.Column="1"                     Text="{Binding GeneratorActivePower}"/>
+                                <TextBox Classes="Title" Grid.Row="5" Grid.Column="2"                     Text="{Binding GeneratorReactivePower}"/>
+                                <TextBox Classes="Title" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GeneratorFullPower}"/>
+                                <TextBox Classes="Title" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WeightedAveragePowerFactor}"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>                
             </ItemsControl>
         </Grid>
     </ScrollViewer>

@@ -9,8 +9,38 @@ namespace SeaCalculator.Models;
 
 public class GeneratorLoad : ObservableObject {
     public ObservableCollection<GeneratorLoadParameters> loadParameters { get; }
-    public GeneratorLoad() {
+    private ObservableCollection<ReceiverMode> receiverModes;
+    public GeneratorLoad(ObservableCollection<ReceiverMode> _receiverModes) {
+        receiverModes = _receiverModes;
         loadParameters = new ObservableCollection<GeneratorLoadParameters>();
+        foreach(var mode in receiverModes)
+            AddGeneratorLoadParametersToReceiverMode(mode);
+        receiverModes.CollectionChanged += ReceiverModesUpdateHandler;
+    }
+    ~GeneratorLoad() {
+        receiverModes.CollectionChanged -= ReceiverModesUpdateHandler;
+    }
+    public void ReceiverModesUpdateHandler(object? sender, NotifyCollectionChangedEventArgs e) {
+        switch (e.Action) {
+            case NotifyCollectionChangedAction.Add:
+                if(e.NewItems is not null)
+                    foreach(ReceiverMode mode in e.NewItems)
+                        AddGeneratorLoadParametersToReceiverMode(mode);
+                break;
+            case NotifyCollectionChangedAction.Remove:
+                if(e.OldItems is not null)
+                    foreach(ReceiverMode mode in e.OldItems)
+                        RemoveGeneratorLoadParametersToReceiverMode(mode);
+                break;
+            case NotifyCollectionChangedAction.Replace:
+                if(e.NewItems is not null)
+                    foreach(ReceiverMode mode in e.NewItems)
+                        AddGeneratorLoadParametersToReceiverMode(mode);
+                if(e.OldItems is not null)
+                    foreach(ReceiverMode mode in e.OldItems)
+                        RemoveGeneratorLoadParametersToReceiverMode(mode);
+                break;
+        }
     }
     public GeneratorLoadParameters AddGeneratorLoadParametersToReceiverMode(ReceiverMode receiverMode) {
         GeneratorLoadParameters parameters = new GeneratorLoadParameters(receiverMode);
@@ -85,20 +115,50 @@ public partial class GeneratorLoadParameters : ObservableObject {
                 break;
         }
     }
+    private double CalcContinuouslyOperatingActivePower() {
+        var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Continuous);
+        if(parameters.Count() > 0)
+            return parameters.Sum(p => p.ActivePower);
+        return 0;
+    }
+    private double CalcPeriodicOperatingActivePower() {
+        var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Periodic);
+        if(parameters.Count() > 0)
+            return parameters.Sum(p => p.ActivePower);
+        return 0;
+    }
+    private double CalcContinuouslyOperatingReactivePower() {
+        var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Continuous);
+        if(parameters.Count() > 0)
+            return parameters.Sum(p => p.ReactivePower);
+        return 0;
+    }
+    private double CalcPeriodicOperatingReactivePower() {
+        var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Periodic);
+        if(parameters.Count() > 0)
+            return parameters.Sum(p => p.ReactivePower);
+        return 0;
+    }
     private void CalcParametersHandler(object? sender, PropertyChangedEventArgs e) {
         if(sender is ReceiverModeParameters parameters)
             switch (e.PropertyName) {
+                case "Mode":
+                        ContinuouslyOperatingActivePower = CalcContinuouslyOperatingActivePower();
+                        PeriodicOperatingActivePower = CalcPeriodicOperatingActivePower();
+                        ContinuouslyOperatingReactivePower = CalcContinuouslyOperatingReactivePower();
+                        PeriodicOperatingReactivePower = CalcPeriodicOperatingReactivePower();
+                    break;
                 case "ActivePower":
                     if(parameters.Mode == ReceiverModeParameters.WorkMode.Continuous)
-                        ContinuouslyOperatingActivePower = receiverMode.receiverModeParameters.Average(p => p.ActivePower);
+                        ContinuouslyOperatingActivePower = CalcContinuouslyOperatingActivePower();
                     if(parameters.Mode == ReceiverModeParameters.WorkMode.Periodic)
-                        PeriodicOperatingActivePower = receiverMode.receiverModeParameters.Average(p => p.ActivePower);
+                        PeriodicOperatingActivePower = CalcPeriodicOperatingActivePower();
                     break;
                 case "ReactivePower":
                     if(parameters.Mode == ReceiverModeParameters.WorkMode.Continuous)
-                        ContinuouslyOperatingReactivePower = receiverMode.receiverModeParameters.Average(p => p.ReactivePower);
+                        ContinuouslyOperatingReactivePower = CalcContinuouslyOperatingReactivePower();
                     if(parameters.Mode == ReceiverModeParameters.WorkMode.Periodic)
-                        PeriodicOperatingReactivePower = receiverMode.receiverModeParameters.Average(p => p.ReactivePower);
+                        PeriodicOperatingReactivePower = CalcPeriodicOperatingReactivePower();
                     break;
             }
         if(sender == this) {
@@ -111,11 +171,18 @@ public partial class GeneratorLoadParameters : ObservableObject {
                 case "PeriodicOperatingReactivePower":
                     TotalReactivePower = ContinuouslyOperatingReactivePower + PeriodicOperatingReactivePower;
                     break;
+                case "CoefficientTimeDifference":
+                    CalcParametersHandler(sender, new("TotalActivePower"));
+                    CalcParametersHandler(sender, new("TotalReactivePower"));
+                    break;
+                case "PowerLossFactor":
+                    CalcParametersHandler(sender, new("TotalActivePower"));
+                    break;
                 case "TotalActivePower":
                     GeneratorActivePower = TotalActivePower * CoefficientTimeDifference * PowerLossFactor;
                     break;
                 case "TotalReactivePower":
-                    GeneratorReactivePower = TotalReactivePower * CoefficientTimeDifference * PowerLossFactor;
+                    GeneratorReactivePower = TotalReactivePower * CoefficientTimeDifference;
                     break;
                 case "GeneratorActivePower":
                 case "GeneratorReactivePower":
