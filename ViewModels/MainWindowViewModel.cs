@@ -8,10 +8,18 @@ public partial class MainWindowViewModel : ViewModelBase
     public int CountOfColumns { get => receiverManager.ReceiverModes.Count + 1; }
     public MainWindowViewModel() {
         receiverManager = new();
-        #if DEBUG
+
+        #if RELEASE
             for(int i = 1; i <= 28; i++)
-                receiverManager.AddReceiver().Name = "TestReceiver" + i;
+                receiverManager.AddReceiver();
             for(int j = 1; j <= 5; j++)
+                receiverManager.AddReceiverMode();
+        #endif
+
+        #if DEBUG
+            for(int i = 1; i <= 3; i++)
+                receiverManager.AddReceiver().Name = "TestReceiver" + i;
+            for(int j = 1; j <= 2; j++)
                 receiverManager.AddReceiverMode().Name = "TestMode" + j;
         #endif
     }
