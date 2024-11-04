@@ -4,7 +4,7 @@ namespace SeaCalculator.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     public ReceiverManager receiverManager { get; }
-    public double HeightOfReceivers { get => receiverManager.Receivers.Count * 100; }
+    public double HeightOfReceivers { get => receiverManager.Receivers.Count * 50; }
     public int CountOfColumns { get => receiverManager.ReceiverModes.Count + 1; }
     public MainWindowViewModel() {
         receiverManager = new();

@@ -28,6 +28,7 @@
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12" />
         </Style>
         <Style Selector="ComboBox">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -37,22 +38,58 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="MinWidth" Value="30"/>
+            <Setter Property="FontSize" Value="9" />
+        </Style>
+        <Style Selector="TextBlock">
+            <Setter Property="FontSize" Value="9" />
         </Style>
         <Style Selector="DataGrid.List" >
             <Setter Property="MaxHeight" Value="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).HeightOfReceivers}" />
+
             <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
             <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
+
             <Setter Property="CanUserReorderColumns" Value="False" />
             <Setter Property="CanUserResizeColumns" Value="False" />
             <Setter Property="CanUserSortColumns" Value="False" />
+
             <Setter Property="GridLinesVisibility" Value="All" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="Gray" />
         </Style>
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="FontSize" Value="7" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid Name="PART_ColumnHeaderRoot"
+                        ColumnDefinitions="*,Auto"
+                        Background="{TemplateBinding Background}">
+
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        Margin="{TemplateBinding Padding}"/>
+
+                        <Rectangle Name="VerticalSeparator"
+                                    Grid.Column="1"
+                                    Width="1"
+                                    VerticalAlignment="Stretch"
+                                    Fill="{TemplateBinding SeparatorBrush}"
+                                    IsVisible="{TemplateBinding AreSeparatorsVisible}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="DataGridCell">
+        </Style>
     </Window.Styles>
-    
+
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible">
         <Grid ColumnDefinitions="auto,*" RowDefinitions="auto,*" IsSharedSizeScope="True">
             <Grid RowDefinitions="auto,*" x:Name="ReceiversGrid" Grid.Row="0" Grid.Column="0">
@@ -60,7 +97,7 @@
                 <DataGrid Classes="List" Grid.Row="1" ItemsSource="{Binding receiverManager.Receivers}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static assets:Lang.Name}"
-                                            Binding="{Binding Name}"/>
+                                            Binding="{Binding Name}" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnCountTitle}"
                                             Binding="{Binding Count}"/>
@@ -173,7 +210,7 @@
                                 <TextBox Classes="Title" Grid.Row="1" Grid.Column="2"                     Text="{Binding PeriodicOperatingReactivePower}"/>
                                 <TextBox Classes="Title" Grid.Row="2" Grid.Column="1"                     Text="{Binding TotalActivePower}"/>
                                 <TextBox Classes="Title" Grid.Row="2" Grid.Column="2"                     Text="{Binding TotalReactivePower}"/>
-                                <TextBox MinWidth="160"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CoefficientTimeDifference}"/>
+                                <TextBox MinWidth="94"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CoefficientTimeDifference}"/>
                                 <TextBox                 Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PowerLossFactor}"/>
                                 <TextBox Classes="Title" Grid.Row="5" Grid.Column="1"                     Text="{Binding GeneratorActivePower}"/>
                                 <TextBox Classes="Title" Grid.Row="5" Grid.Column="2"                     Text="{Binding GeneratorReactivePower}"/>
