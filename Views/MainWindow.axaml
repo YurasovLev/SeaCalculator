@@ -38,20 +38,26 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="MinWidth" Value="30"/>
         </Style>
+        <Style Selector="DataGrid.List" >
+            <Setter Property="MaxHeight" Value="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).HeightOfReceivers}" />
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="CanUserReorderColumns" Value="False" />
+            <Setter Property="CanUserResizeColumns" Value="False" />
+            <Setter Property="CanUserSortColumns" Value="False" />
+            <Setter Property="GridLinesVisibility" Value="All" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Gray" />
+        </Style>
     </Window.Styles>
-
-    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible">
         <Grid ColumnDefinitions="auto,*" RowDefinitions="auto,*" IsSharedSizeScope="True">
             <Grid RowDefinitions="auto,*" x:Name="ReceiversGrid" Grid.Row="0" Grid.Column="0">
                 <TextBox Grid.Row="0" Classes="Title" Text="{x:Static assets:Lang.ReceiversTitle}" MinHeight="64"/>
-                <DataGrid  Grid.Row="1" ItemsSource="{Binding receiverManager.Receivers}"
-                            MaxWidth="{Binding $parent[Window].Width}"
-                            MaxHeight="{Binding $parent[Window].Height}"
-                            CanUserReorderColumns="False"
-                            CanUserResizeColumns="False"
-                            CanUserSortColumns="False"
-                            GridLinesVisibility="All"
-                            BorderThickness="1" BorderBrush="Gray">
+                <DataGrid Classes="List" Grid.Row="1" ItemsSource="{Binding receiverManager.Receivers}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static assets:Lang.Name}"
                                             Binding="{Binding Name}"/>
@@ -89,14 +95,7 @@
                                     <ColumnDefinition SharedSizeGroup="WorkModeColumn" />
                                 </Grid.ColumnDefinitions>
                                 <TextBox Grid.Row="0" Grid.Column="0" Classes="WorkModeName" Text="{Binding Name}"/>
-                                <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding receiverModeParameters}" 
-                                            MaxWidth="{Binding $parent[Window].Width}"
-                                            MaxHeight="{Binding $parent[Window].Height}"
-                                            CanUserReorderColumns="False"
-                                            CanUserResizeColumns="False"
-                                            CanUserSortColumns="False"
-                                            GridLinesVisibility="All"
-                                            BorderThickness="1" BorderBrush="Gray">
+                                <DataGrid Classes="List" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding receiverModeParameters}">
                                     <DataGrid.Columns>
                                         <DataGridTemplateColumn Header="{x:Static assets:Lang.ReceiverModesWorkModeTitle}"
                                                                 IsReadOnly="False">
