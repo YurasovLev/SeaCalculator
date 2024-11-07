@@ -100,23 +100,23 @@
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnCountTitle}"
                                             Binding="{Binding Count}"
-                                            MinWidth="33" />
+                                            MinWidth="40" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnRatedSteadyPowerTitle}"
                                             Binding="{Binding RatedSteadyPower}"
-                                            MinWidth="33" />
+                                            MinWidth="40" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.CosPhi}"
                                             Binding="{Binding Cos}"
-                                            MinWidth="33" />
+                                            MinWidth="40" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnEfficiencyTitle}"
                                             Binding="{Binding Efficiency}"
-                                            MinWidth="33" />
+                                            MinWidth="40" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnRatedPowerConsumptionTitle}"
                                             Binding="{Binding RatedPowerConsumption}"
-                                            MinWidth="33" 
+                                            MinWidth="40" 
                                             IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
@@ -150,24 +150,24 @@
 
                                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesLoadFactorTitle}"
                                                             Binding="{Binding LoadFactor}"
-                                                            MinWidth="33" />
+                                                            MinWidth="40" />
 
                                         <DataGridTextColumn Header="{x:Static assets:Lang.CosPhi}"
                                                             Binding="{Binding Cos}"
-                                                            MinWidth="33" />
+                                                            MinWidth="40" />
 
                                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesCountTitle}"
                                                             Binding="{Binding WorkingReceiversCount}"
-                                                            MinWidth="33" />
+                                                            MinWidth="40" />
                                         
                                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesActivePowerTitle}"
                                                             Binding="{Binding ActivePower}"
-                                                            MinWidth="33" 
+                                                            MinWidth="40" 
                                                             IsReadOnly="True"/>
 
                                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesReactivePowerTitle}"
                                                             Binding="{Binding ReactivePower}"
-                                                            MinWidth="33" 
+                                                            MinWidth="40" 
                                                             IsReadOnly="True"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
