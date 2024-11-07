@@ -67,7 +67,7 @@ public partial class ReceiverModeParameters : ObservableObject {
             case "WorkingReceiversCount":
             case "LoadFactor":
                 try {
-                    ActivePower = receiver.RatedSteadyPower * WorkingReceiversCount * LoadFactor;
+                    ActivePower = receiver.RatedPowerConsumption * WorkingReceiversCount * LoadFactor;
                 } catch (DivideByZeroException) {
                     ActivePower = double.NaN;
                 }
