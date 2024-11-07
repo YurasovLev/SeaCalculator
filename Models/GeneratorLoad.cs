@@ -131,11 +131,11 @@ public partial class GeneratorLoadParameters : ObservableObject {
             switch (e.PropertyName) {
                 case "ContinuouslyOperatingActivePower":
                 case "PeriodicOperatingActivePower":
-                    TotalActivePower = ContinuouslyOperatingActivePower + PeriodicOperatingActivePower;
+                    TotalActivePower = Math.Round(ContinuouslyOperatingActivePower + PeriodicOperatingActivePower, 2);
                     break;
                 case "ContinuouslyOperatingReactivePower":
                 case "PeriodicOperatingReactivePower":
-                    TotalReactivePower = ContinuouslyOperatingReactivePower + PeriodicOperatingReactivePower;
+                    TotalReactivePower = Math.Round(ContinuouslyOperatingReactivePower + PeriodicOperatingReactivePower, 2);
                     break;
                 case "CoefficientTimeDifference":
                     CalcParametersHandler(sender, new("TotalActivePower"));
@@ -145,15 +145,15 @@ public partial class GeneratorLoadParameters : ObservableObject {
                     CalcParametersHandler(sender, new("TotalActivePower"));
                     break;
                 case "TotalActivePower":
-                    GeneratorActivePower = TotalActivePower * CoefficientTimeDifference * PowerLossFactor;
+                    GeneratorActivePower = Math.Round(TotalActivePower * CoefficientTimeDifference * PowerLossFactor, 2);
                     break;
                 case "TotalReactivePower":
-                    GeneratorReactivePower = TotalReactivePower * CoefficientTimeDifference;
+                    GeneratorReactivePower = Math.Round(TotalReactivePower * CoefficientTimeDifference, 2);
                     break;
                 case "GeneratorActivePower":
                 case "GeneratorReactivePower":
-                    GeneratorFullPower = Math.Sqrt(Math.Pow(GeneratorActivePower, 2) + Math.Pow(GeneratorReactivePower, 2));
-                    WeightedAveragePowerFactor = GeneratorActivePower / GeneratorReactivePower;
+                    GeneratorFullPower = Math.Round(Math.Sqrt(Math.Pow(GeneratorActivePower, 2) + Math.Pow(GeneratorReactivePower, 2)), 2);
+                    WeightedAveragePowerFactor = Math.Round(GeneratorActivePower / GeneratorReactivePower, 2);
                     break;
             }
         }

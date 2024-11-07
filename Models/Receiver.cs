@@ -32,7 +32,7 @@ public partial class Receiver : ObservableObject {
             case "Efficiency":
             case "RatedSteadyPower":
                 try {
-                    RatedPowerConsumption = RatedSteadyPower / Efficiency;
+                    RatedPowerConsumption = Math.Round(RatedSteadyPower / Efficiency, 2);
                 } catch (DivideByZeroException) {
                     RatedPowerConsumption = double.NaN;
                 }
