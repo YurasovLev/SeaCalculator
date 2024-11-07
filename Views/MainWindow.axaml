@@ -86,8 +86,6 @@
                 </ControlTemplate>
             </Setter>
         </Style>
-        <Style Selector="DataGridCell">
-        </Style>
     </Window.Styles>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible">
@@ -97,22 +95,28 @@
                 <DataGrid Classes="List" Grid.Row="1" ItemsSource="{Binding receiverManager.Receivers}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static assets:Lang.Name}"
-                                            Binding="{Binding Name}" />
+                                            Binding="{Binding Name}"
+                                            MinWidth="60" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnCountTitle}"
-                                            Binding="{Binding Count}"/>
+                                            Binding="{Binding Count}"
+                                            MinWidth="33" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnRatedSteadyPowerTitle}"
-                                            Binding="{Binding RatedSteadyPower}"/>
+                                            Binding="{Binding RatedSteadyPower}"
+                                            MinWidth="33" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.CosPhi}"
-                                            Binding="{Binding Cos}"/>
+                                            Binding="{Binding Cos}"
+                                            MinWidth="33" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnEfficiencyTitle}"
-                                            Binding="{Binding Efficiency}"/>
+                                            Binding="{Binding Efficiency}"
+                                            MinWidth="33" />
 
                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverColumnRatedPowerConsumptionTitle}"
                                             Binding="{Binding RatedPowerConsumption}"
+                                            MinWidth="33" 
                                             IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
@@ -145,20 +149,25 @@
                                         </DataGridTemplateColumn>
 
                                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesLoadFactorTitle}"
-                                                            Binding="{Binding LoadFactor}"/>
+                                                            Binding="{Binding LoadFactor}"
+                                                            MinWidth="33" />
 
                                         <DataGridTextColumn Header="{x:Static assets:Lang.CosPhi}"
-                                                            Binding="{Binding Cos}"/>
+                                                            Binding="{Binding Cos}"
+                                                            MinWidth="33" />
 
                                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesCountTitle}"
-                                                            Binding="{Binding WorkingReceiversCount}"/>
+                                                            Binding="{Binding WorkingReceiversCount}"
+                                                            MinWidth="33" />
                                         
                                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesActivePowerTitle}"
                                                             Binding="{Binding ActivePower}"
+                                                            MinWidth="33" 
                                                             IsReadOnly="True"/>
 
                                         <DataGridTextColumn Header="{x:Static assets:Lang.ReceiverModesReactivePowerTitle}"
                                                             Binding="{Binding ReactivePower}"
+                                                            MinWidth="33" 
                                                             IsReadOnly="True"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -167,7 +176,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <Grid x:Name="GeneratorLoadGridTitles" RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto" Grid.Row="1" Grid.Column="0">
+            <Grid x:Name="GeneratorLoadGridTitles" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto" Grid.Row="1" Grid.Column="0">
                 <TextBox Grid.Row="0" Classes="Title" Text="{x:Static assets:Lang.ContinuouslyOperatingActiveAndReactivePowers}" />
                 <TextBox Grid.Row="1" Classes="Title" Text="{x:Static assets:Lang.PeriodicOperatingActiveAndReactivePowers}" />
                 <TextBox Grid.Row="2" Classes="Title" Text="{x:Static assets:Lang.TotalOperatingPowers}" />
@@ -181,6 +190,9 @@
                         <TextBox Grid.Row="2" Classes="Title" Text="{x:Static assets:Lang.WeightedAveragePowerFactor}" />
                     </Grid>
                 </Grid>
+                <TextBox Grid.Row="6" Classes="Title" Text="" />
+                <TextBox Grid.Row="7" Classes="Title" Text="" />
+                <TextBox Grid.Row="8" Classes="Title" Text="" />
             </Grid>
             <ItemsControl x:Name="GeneratorLoadGrid" ItemsSource="{Binding receiverManager.generatorLoad.loadParameters}" Grid.Row="1" Grid.Column="1">
                 <ItemsControl.ItemsPanel>
@@ -194,7 +206,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition SharedSizeGroup="WorkModeColumn" />
                             </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto,auto">
+                            <Grid Grid.Column="0" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*,auto,auto">
                                 <TextBox Classes="Title" Grid.Row="0" Grid.Column="0"                     Text=""/>
                                 <TextBox Classes="Title" Grid.Row="1" Grid.Column="0"                     Text=""/>
                                 <TextBox Classes="Title" Grid.Row="2" Grid.Column="0"                     Text=""/>
@@ -203,6 +215,9 @@
                                 <TextBox Classes="Title" Grid.Row="5" Grid.Column="0"                     Text=""/>
                                 <TextBox Classes="Title" Grid.Row="6" Grid.Column="0"                     Text=""/>
                                 <TextBox Classes="Title" Grid.Row="7" Grid.Column="0"                     Text=""/>
+                                <TextBox Classes="Title" Grid.Row="8"  Grid.Column="0"                    Text=""/>
+                                <TextBox Classes="Title" Grid.Row="9"  Grid.Column="0"                    Text=""/>
+                                <TextBox Classes="Title" Grid.Row="10" Grid.Column="0"                    Text=""/>
 
                                 <TextBox Classes="Title" Grid.Row="0" Grid.Column="1"                     Text="{Binding ContinuouslyOperatingActivePower}"/>
                                 <TextBox Classes="Title" Grid.Row="0" Grid.Column="2"                     Text="{Binding ContinuouslyOperatingReactivePower}"/>
@@ -210,12 +225,15 @@
                                 <TextBox Classes="Title" Grid.Row="1" Grid.Column="2"                     Text="{Binding PeriodicOperatingReactivePower}"/>
                                 <TextBox Classes="Title" Grid.Row="2" Grid.Column="1"                     Text="{Binding TotalActivePower}"/>
                                 <TextBox Classes="Title" Grid.Row="2" Grid.Column="2"                     Text="{Binding TotalReactivePower}"/>
-                                <TextBox MinWidth="94"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CoefficientTimeDifference}"/>
+                                <TextBox MinWidth="105"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CoefficientTimeDifference}"/>
                                 <TextBox                 Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PowerLossFactor}"/>
                                 <TextBox Classes="Title" Grid.Row="5" Grid.Column="1"                     Text="{Binding GeneratorActivePower}"/>
                                 <TextBox Classes="Title" Grid.Row="5" Grid.Column="2"                     Text="{Binding GeneratorReactivePower}"/>
                                 <TextBox Classes="Title" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GeneratorFullPower}"/>
                                 <TextBox Classes="Title" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WeightedAveragePowerFactor}"/>
+                                <TextBox Classes="Title" Grid.Row="8"  Grid.Column="1" Grid.ColumnSpan="2" Text=""/>
+                                <TextBox Classes="Title" Grid.Row="9"  Grid.Column="1" Grid.ColumnSpan="2" Text=""/>
+                                <TextBox Classes="Title" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Text=""/>
                             </Grid>
                         </Grid>
                     </DataTemplate>

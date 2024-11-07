@@ -141,6 +141,6 @@
     <value>Sнг</value>
   </data>
   <data name="WeightedAveragePowerFactor" xml:space="preserve">
-    <value>COSср</value>
+    <value>Cos Φ𝑐𝑝</value>
   </data>
 </root>
