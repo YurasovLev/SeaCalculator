@@ -63,7 +63,7 @@ public partial class ReceiverModeParameters : ObservableObject {
     }
     private void PropertyCalcHandler(object? s, PropertyChangedEventArgs e) {
         switch(e.PropertyName) {
-            case "RatedSteadyPower":
+            case "RatedPowerConsumption":
             case "WorkingReceiversCount":
             case "LoadFactor":
                 if( receiver.RatedPowerConsumption is not null && WorkingReceiversCount is not null && LoadFactor is not null )
@@ -72,7 +72,7 @@ public partial class ReceiverModeParameters : ObservableObject {
                 break;
             case "ActivePower":
             case "Cos":
-                if( ActivePower is not null && Cos is not null)
+                if( ActivePower is not null && Cos is not null && Cos > 0)
                     ReactivePower = Math.Round(ActivePower.Value * Math.Tan(Math.Acos(Cos.Value)), 1);
                 else ReactivePower = null;
                 break;

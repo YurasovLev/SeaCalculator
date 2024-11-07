@@ -157,8 +157,8 @@ public partial class GeneratorLoadParameters : ObservableObject {
                 case "GeneratorActivePower":
                 case "GeneratorReactivePower":
                     GeneratorFullPower = Math.Round(Math.Sqrt(Math.Pow(GeneratorActivePower, 2) + Math.Pow(GeneratorReactivePower, 2)), 2);
-                    if( GeneratorReactivePower > 0)
-                        WeightedAveragePowerFactor = Math.Round(GeneratorActivePower / GeneratorReactivePower, 2);
+                    if( GeneratorFullPower > 0)
+                        WeightedAveragePowerFactor = Math.Round(GeneratorActivePower / GeneratorFullPower, 2);
                     else WeightedAveragePowerFactor = double.NaN;
                     break;
             }
