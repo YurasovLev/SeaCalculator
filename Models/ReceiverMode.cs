@@ -38,15 +38,15 @@ public partial class ReceiverModeParameters : ObservableObject {
     [ObservableProperty]
     private WorkMode _mode;
     [ObservableProperty]
-    private double _loadFactor;
+    private double? _loadFactor;
     [ObservableProperty]
-    private double _cos;
+    private double? _cos;
     [ObservableProperty]
-    private uint _workingReceiversCount;
-    private double _activePower;
-    public double ActivePower {get => _activePower; private set => SetProperty(ref _activePower, value); }
-    private double _reactivePower;
-    public double ReactivePower {get => _reactivePower; private set => SetProperty(ref _reactivePower, value); }
+    private uint? _workingReceiversCount;
+    private double? _activePower;
+    public double? ActivePower {get => _activePower; private set => SetProperty(ref _activePower, value); }
+    private double? _reactivePower;
+    public double? ReactivePower {get => _reactivePower; private set => SetProperty(ref _reactivePower, value); }
     static ReceiverModeParameters() {
         WorkModesList = typeof(WorkMode).GetEnumValues().Cast<WorkMode>().ToList();
     }
@@ -66,19 +66,15 @@ public partial class ReceiverModeParameters : ObservableObject {
             case "RatedSteadyPower":
             case "WorkingReceiversCount":
             case "LoadFactor":
-                try {
-                    ActivePower = Math.Round(receiver.RatedPowerConsumption * WorkingReceiversCount * LoadFactor, 2);
-                } catch (DivideByZeroException) {
-                    ActivePower = double.NaN;
-                }
+                if( receiver.RatedPowerConsumption is not null && WorkingReceiversCount is not null && LoadFactor is not null )
+                    ActivePower = Math.Round( receiver.RatedPowerConsumption.Value * WorkingReceiversCount.Value * LoadFactor.Value, 2);
+                else ActivePower = null;
                 break;
             case "ActivePower":
             case "Cos":
-                try {
-                    ReactivePower = Math.Round(ActivePower * Math.Tan(Math.Acos(Cos)), 1);
-                } catch (DivideByZeroException) {
-                    ReactivePower = double.NaN;
-                }
+                if( ActivePower is not null && Cos is not null)
+                    ReactivePower = Math.Round(ActivePower.Value * Math.Tan(Math.Acos(Cos.Value)), 1);
+                else ReactivePower = null;
                 break;
         }
     }

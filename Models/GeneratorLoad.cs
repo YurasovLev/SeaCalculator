@@ -53,9 +53,9 @@ public partial class GeneratorLoadParameters : ObservableObject {
     [ObservableProperty]
     public double totalReactivePower;
     [ObservableProperty]
-    public double coefficientTimeDifference;
+    public double? coefficientTimeDifference;
     [ObservableProperty]
-    public double powerLossFactor;
+    public double? powerLossFactor;
     [ObservableProperty]
     public double generatorActivePower;
     [ObservableProperty]
@@ -63,7 +63,7 @@ public partial class GeneratorLoadParameters : ObservableObject {
     [ObservableProperty]
     public double generatorFullPower;
     [ObservableProperty]
-    public double weightedAveragePowerFactor;
+    public double weightedAveragePowerFactor = double.NaN;
     public GeneratorLoadParameters(ReceiverMode _receiverMode) {
         receiverMode = _receiverMode;
         PropertyChanged += CalcParametersHandler;
@@ -84,25 +84,25 @@ public partial class GeneratorLoadParameters : ObservableObject {
     private double CalcContinuouslyOperatingActivePower() {
         var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Continuous);
         if(parameters.Count() > 0)
-            return parameters.Sum(p => p.ActivePower);
+            return parameters.Sum(p => p.ActivePower ?? 0);
         return 0;
     }
     private double CalcPeriodicOperatingActivePower() {
         var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Periodic);
         if(parameters.Count() > 0)
-            return parameters.Sum(p => p.ActivePower);
+            return parameters.Sum(p => p.ActivePower ?? 0);
         return 0;
     }
     private double CalcContinuouslyOperatingReactivePower() {
         var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Continuous);
         if(parameters.Count() > 0)
-            return parameters.Sum(p => p.ReactivePower);
+            return parameters.Sum(p => p.ReactivePower ?? 0);
         return 0;
     }
     private double CalcPeriodicOperatingReactivePower() {
         var parameters = receiverMode.receiverModeParameters.Where(p => p.Mode == ReceiverModeParameters.WorkMode.Periodic);
         if(parameters.Count() > 0)
-            return parameters.Sum(p => p.ReactivePower);
+            return parameters.Sum(p => p.ReactivePower ?? 0);
         return 0;
     }
     private void CalcParametersHandler(object? sender, PropertyChangedEventArgs e) {
@@ -145,15 +145,21 @@ public partial class GeneratorLoadParameters : ObservableObject {
                     CalcParametersHandler(sender, new("TotalActivePower"));
                     break;
                 case "TotalActivePower":
-                    GeneratorActivePower = Math.Round(TotalActivePower * CoefficientTimeDifference * PowerLossFactor, 2);
+                    if(CoefficientTimeDifference is not null && PowerLossFactor is not null)
+                        GeneratorActivePower = Math.Round(TotalActivePower * CoefficientTimeDifference.Value * PowerLossFactor.Value, 2);
+                    else GeneratorActivePower = 0;
                     break;
                 case "TotalReactivePower":
-                    GeneratorReactivePower = Math.Round(TotalReactivePower * CoefficientTimeDifference, 2);
+                    if(CoefficientTimeDifference is not null)
+                        GeneratorReactivePower = Math.Round(TotalReactivePower * CoefficientTimeDifference.Value, 2);
+                    else GeneratorReactivePower = 0;
                     break;
                 case "GeneratorActivePower":
                 case "GeneratorReactivePower":
                     GeneratorFullPower = Math.Round(Math.Sqrt(Math.Pow(GeneratorActivePower, 2) + Math.Pow(GeneratorReactivePower, 2)), 2);
-                    WeightedAveragePowerFactor = Math.Round(GeneratorActivePower / GeneratorReactivePower, 2);
+                    if( GeneratorReactivePower > 0)
+                        WeightedAveragePowerFactor = Math.Round(GeneratorActivePower / GeneratorReactivePower, 2);
+                    else WeightedAveragePowerFactor = double.NaN;
                     break;
             }
         }

@@ -10,15 +10,15 @@ public partial class Receiver : ObservableObject {
     [ObservableProperty]
     private string _name = "";
     [ObservableProperty]
-    private uint _count;
+    private uint? _count;
     [ObservableProperty]
-    private double _ratedSteadyPower;
+    private double? _ratedSteadyPower;
     [ObservableProperty]
-    private double _cos;
+    private double? _cos;
     [ObservableProperty]
-    private double _efficiency;
-    private double _ratedPowerConsumption;
-    public double RatedPowerConsumption { get => _ratedPowerConsumption; private set => SetProperty(ref _ratedPowerConsumption, value); }
+    private double? _efficiency;
+    private double? _ratedPowerConsumption;
+    public double? RatedPowerConsumption { get => _ratedPowerConsumption; private set => SetProperty(ref _ratedPowerConsumption, value); }
     public ObservableCollection<ReceiverModeParameters> ModesParameters { get; }
     public Receiver() {
         ModesParameters = new();
@@ -31,11 +31,9 @@ public partial class Receiver : ObservableObject {
         switch(e.PropertyName) {
             case "Efficiency":
             case "RatedSteadyPower":
-                try {
-                    RatedPowerConsumption = Math.Round(RatedSteadyPower / Efficiency, 2);
-                } catch (DivideByZeroException) {
-                    RatedPowerConsumption = double.NaN;
-                }
+                if(RatedSteadyPower is not null && Efficiency is not null && Efficiency > 0)
+                    RatedPowerConsumption = Math.Round(RatedSteadyPower.Value / Efficiency.Value, 2);
+                else RatedPowerConsumption = null;
                 break;
         }
     }
